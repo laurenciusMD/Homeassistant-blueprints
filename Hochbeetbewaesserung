@@ -1,0 +1,127 @@
+blueprint:
+  name: Bewässerungsautomatik Hochbeet
+  description: Automatische Bewässerung des Hochbeets basierend auf Wetterbedingungen und Bodenfeuchtigkeit
+  domain: automation
+  input:
+    rain_sensor:
+      name: Regenmesser
+      description: Sensor zur Erkennung der täglichen Regenmenge
+      selector:
+        entity:
+          domain: sensor
+    yesterday_rain:
+      name: Gestern Regen
+      description: Boolean, der anzeigt, ob es gestern geregnet hat
+      selector:
+        entity:
+          domain: input_boolean
+    moisture_sensor:
+      name: Feuchtigkeitssensor
+      description: Feuchtigkeitssensor des Hochbeets
+      selector:
+        entity:
+          domain: sensor
+    water_valve:
+      name: Wassersteuerung
+      description: Steuerung der Bewässerungskanäle
+      selector:
+        entity:
+          domain: number
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: "01:00:00"
+  condition:
+    - condition: numeric_state
+      entity_id: !input rain_sensor
+      below: 3
+    - condition: state
+      entity_id: !input yesterday_rain
+      state: "off"
+    - condition: numeric_state
+      entity_id: !input moisture_sensor
+      below: 55
+  action:
+    - alias: "Wasser Kanal 1 an"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 100
+    - delay: "00:01:00"
+    - alias: "Wasser aus"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 0
+    - delay: "00:01:00"
+    - alias: "Wasser Kanal 2 an"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 100
+    - delay: "00:02:00"
+    - alias: "Wasser aus"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 0
+    - delay: "00:01:00"
+    - alias: "Wasser Kanal 3 an"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 100
+    - delay: "00:01:00"
+    - alias: "Wasser aus"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 0
+    - delay: "00:01:00"
+    - alias: "Wasser Kanal 4 an"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 100
+    - delay: "00:01:00"
+    - alias: "Wasser aus"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 0
+    - delay: "00:01:00"
+    - alias: "Wasser Kanal 5 an"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 100
+    - delay: "00:01:00"
+    - alias: "Wasser aus"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 0
+    - alias: "Wasser Kanal 6 an"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 100
+    - delay: "00:01:00"
+    - alias: "Wasser aus"
+      service: number.set_value
+      target:
+        entity_id: !input water_valve
+      data:
+        value: 0
+  mode: single
