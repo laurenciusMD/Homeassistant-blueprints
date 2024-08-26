@@ -1,6 +1,6 @@
 blueprint:
   name: "Bewässerungsautomatik Hochbeet"
-  description: "Automatische Bewässerung des Hochbeets basierend auf Wetterbedingungen und Bodenfeuchtigkeit"
+  description: "Automatische Bewässerung des Hochbeets basierend auf Wetterbedingungen und Bodenfeuchtigkeit, mit einstellbarer Bewässerungslänge"
   domain: automation
   input:
     rain_sensor:
@@ -27,6 +27,16 @@ blueprint:
       selector:
         entity:
           domain: number
+    watering_duration:
+      name: "Bewässerungsdauer (Minuten)"
+      description: "Länge der Bewässerung in Minuten für jeden Kanal"
+      selector:
+        number:
+          min: 1
+          max: 60
+          step: 1
+          unit_of_measurement: "Minuten"
+          mode: slider
 
 trigger:
   - platform: sun
@@ -51,7 +61,8 @@ action:
       entity_id: !input water_valve
     data:
       value: 100
-  - delay: "00:01:00"
+  - delay:
+      minutes: !input watering_duration
   - alias: "Wasser aus"
     service: number.set_value
     target:
@@ -65,7 +76,8 @@ action:
       entity_id: !input water_valve
     data:
       value: 100
-  - delay: "00:02:00"
+  - delay:
+      minutes: !input watering_duration
   - alias: "Wasser aus"
     service: number.set_value
     target:
@@ -79,7 +91,8 @@ action:
       entity_id: !input water_valve
     data:
       value: 100
-  - delay: "00:01:00"
+  - delay:
+      minutes: !input watering_duration
   - alias: "Wasser aus"
     service: number.set_value
     target:
@@ -93,7 +106,8 @@ action:
       entity_id: !input water_valve
     data:
       value: 100
-  - delay: "00:01:00"
+  - delay:
+      minutes: !input watering_duration
   - alias: "Wasser aus"
     service: number.set_value
     target:
@@ -107,7 +121,8 @@ action:
       entity_id: !input water_valve
     data:
       value: 100
-  - delay: "00:01:00"
+  - delay:
+      minutes: !input watering_duration
   - alias: "Wasser aus"
     service: number.set_value
     target:
@@ -120,7 +135,8 @@ action:
       entity_id: !input water_valve
     data:
       value: 100
-  - delay: "00:01:00"
+  - delay:
+      minutes: !input watering_duration
   - alias: "Wasser aus"
     service: number.set_value
     target:
